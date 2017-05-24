@@ -4,29 +4,46 @@ import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 export class Picture {
-  constructor(public name: string, public link: string) { }
+  constructor(
+    public name: string, 
+    public link: string,
+    public displayName: string, 
+    public type: string,
+    public data: string
+  ) { }
 }
 
 @Injectable()
 export class PictureService {
 
   
-  url: '';
+  urlphotos: '';
+  urldata: '';
 
   constructor( private http: Http ) { }
 
   getPictures(){
-      console.log('avant' + this.url);
+      console.log('avant' + this.urlphotos);
 
-    if (this.url === '' || this.url === undefined){
-      this.url = (<any>data).allLambdas.find(myObj => myObj.name === 'photos').url;
-      console.log('loaded URL: ' + this.url);
+    if (this.urlphotos === '' || this.urlphotos === undefined){
+      this.urlphotos = (<any>data).allLambdas.find(myObj => myObj.name === 'photos').url;
+      console.log('loaded URL: ' + this.urlphotos);
     }
-//'https://g280jcy3mh.execute-api.eu-west-1.amazonaws.com/v1/retrieve'
-    return this.http.post(this.url, null)
+    
+    return this.http.post(this.urlphotos, null)
       .map((res: Response) => res.json());
   }
 
+  getDataPicture(pic){
+       if (this.urldata === '' || this.urldata === undefined){
+          this.urldata = (<any>data).allLambdas.find(myObj => myObj.name === 'encodeImage').url;
+          console.log('loaded URL: ' + this.urldata);
+        }
+      
+      return this.http.post(this.urldata, {name: pic.name, type: pic.type})
+        .map((res: Response) => res.json());
+    }
+  
   getUrl(){
 
     console.log('loading lambda urls')
