@@ -21,8 +21,8 @@ export class PicturesComponent implements OnInit {
 
   onSelect(picture: Picture){
     this.selectedPicture = picture;
-    this.pictureService.getDataPicture(picture)
-      .subscribe(data => this.selectedPicture.data = data.data);
+//    this.pictureService.getDataPicture(picture)
+//      .subscribe(data => this.selectedPicture.data = data.data);
   }
 }
 
